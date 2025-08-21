@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+<style>
+
+* {
+  box-sizing: border-box;
+}
+
+#allContent {
+      width: 65%;
+      margin: 0 auto; /* Center the div */
+      padding: 20px; 
+}
+
+#myInput {
+  background-image: url('/css/searchicon.png');
+  background-position: 10px 12px;
+  background-repeat: no-repeat;
+  width: 100%;
+  font-size: 16px;
+  padding: 12px 20px 12px 40px;
+  border: 1px solid #ddd;
+  margin-bottom: 12px;
+}
+
+#myUL {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+#myUL li a {
+  border: 1px solid #ddd;
+  margin-top: -1px; /* Prevent double borders */
+  background-color: #f6f6f6;
+  padding: 12px;
+  text-decoration: none;
+  font-size: 18px;
+  color: black;
+  display: block
+}
+
+#myUL li a:hover:not(.header) {
+  background-color: #eee;
+}
+
+</style>
+
+
+
+</head>
+<body>
+
+<div id="allContent">
+
+    <hr>
+    <div id=titleDiv style="justify-content: center; display: flex; font-size: 32px;">Inpatient List Balancer</div>
+    <div id=titleDiv style="justify-content: center; display: flex; font-size: 14px;">v. 1.0</div>
+    <hr>
+    <br>
+    <br>
+    <div id="tableHolder">
+        <table>
+            <tr>
+                <th></th>
+                <th>Red</th>
+                <th>Yellow</th>
+                <th>Blue</th>
+                <th>White</th>
+            </tr>
+            <tr>
+                <td><label>Rotation:</label></td>
+                <td>
+                    <select name="redRotationPosition" id="redRotationPosition" type="text" value="pc">
+                        <option type="number" value="">--</option>
+                        <option type="number" value="0.03">Call</option>
+                        <option value="pc">Post-Call</option>
+                        <option type="number" value="0.02">Trickle # 1</option>
+                        <option type="number" value="0.01">Trickle # 2</option>
+                    </select>
+                </td>
+                <td>
+                    <select name="yellowRotationPosition" id="yellowRotationPosition" type="number" value="0.03">
+                        <option type="number" value="">--</option>
+                        <option type="number" value="0.03">Call</option>
+                        <option value="pc">Post-Call</option>
+                        <option type="number" value="0.02">Trickle # 1</option>
+                        <option type="number" value="0.01">Trickle # 2</option>
+                    </select>
+                </td>
+                <td>
+                    <select name="blueRotationPosition" id="blueRotationPosition" type="number" value="0.02">
+                        <option type="number" value="">--</option>
+                        <option type="number" value="0.03">Call</option>
+                        <option value="pc">Post-Call</option>
+                        <option type="number" value="0.02">Trickle # 1</option>
+                        <option type="number" value="0.01">Trickle # 2</option>
+                    </select>
+                </td>
+                <td>
+                    <select name="whiteRotationPosition" id="whiteRotationPosition">
+                        <option type="number" value="">--</option>
+                        <option type="number" value="0.03">Call</option>
+                        <option type = "text" value="pc">Post-Call</option>
+                        <option type="number" value="0.02">Trickle # 1</option>
+                        <option type="number" value="0.01">Trickle # 2</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label>Total Number of Patients:</label>
+                </td>
+                <td><input type="number" size="2" id="redPatientNumber" value="8"></td>
+                <td><input type="number" size="2" id="yellowPatientNumber" value="9"></td>
+                <td><input type="number" size="2" id="bluePatientNumber" value="8"></td>
+                <td><input type="number" size="2" id="whitePatientNumber" value="10"></td>
+            </tr>
+            <tr>
+                <td>
+                    <label>Watchers:</label>
+                </td>
+                <td><input type="number" size="2" id="redWatchers" value="0"></td>
+                <td><input type="number" size="2" id="yellowWatchers" value="1"></td>
+                <td><input type="number" size="2" id="blueWatchers" value="1"></td>
+                <td><input type="number" size="2" id="whiteWatchers" value="2"></td>
+            </tr>
+            <tr>
+                <td>
+                    <label>Admits so Far:</label>
+                </td>
+                <td><input type="number" size="2" id="redAdmits" value="0"></td>
+                <td><input type="number" size="2" id="yellowAdmits" value="0"></td>
+                <td><input type="number" size="2" id="blueAdmits" value="0"></td>
+                <td><input type="number" size="2" id="whiteAdmits" value="0"></td>
+            </tr>
+
+        </table>
+
+    </div>
+    <div id="calculateButtondiv">
+        <button type="button" id="calculateButton" onclick="equilibriumFunction()">Seek Equilibrium!</button>
+    </div>
+    <div id="returnedResultsDiv">
+
+    </div>
+
+
+</div>
+
+<script>
+    function equilibriumFunction() {
+        var sumlist, redsum, yellowsum, bluesum, whitesum, redpos, bluepos, yellowpos, whitepos, redpts, bluepts, yellowpts, whitepts, redwatch, bluewatch, yellowwatch, whitewatch, redadmit, blueadmit, yellowadmit, whiteadmit;
+        
+        redpos = document.getElementById("redRotationPosition").value;
+        bluepos = document.getElementById("blueRotationPosition").value;
+        yellowpos = document.getElementById("yellowRotationPosition").value;
+        whitepos = document.getElementById("whiteRotationPosition").value;
+        
+        redpts = document.getElementById("redPatientNumber").value;
+        bluepts = document.getElementById("bluePatientNumber").value;
+        yellowpts = document.getElementById("yellowPatientNumber").value;
+        whitepts = document.getElementById("whitePatientNumber").value;
+        
+        redwatch = document.getElementById("redWatchers").value;
+        bluewatch = document.getElementById("blueWatchers").value;
+        yellowwatch = document.getElementById("yellowWatchers").value;
+        whitewatch = document.getElementById("whiteWatchers").value;
+        
+        redadmit = document.getElementById("redAdmits").value;
+        blueadmit = document.getElementById("blueAdmits").value;
+        yellowadmit = document.getElementById("yellowAdmits").value;
+        whiteadmit = document.getElementById("whiteAdmits").value;
+
+        sumlist = {};
+
+        if (String(redpos) !== "pc") {
+            redsum = Number(redpos) + (Number(redpts) - Number(redwatch)) + (Number(redwatch) * 1.30) + (Number(redadmit) * 1.75);
+            console.log("Ret team position value:" + redpos);
+            console.log("Red Sum is:" + redsum);
+            sumlist.red = redsum;
+        }
+        if (String(yellowpos) !== "pc") {
+            yellowsum = Number(yellowpos) + (Number(yellowpts) - Number(yellowwatch)) + (Number(yellowwatch) * 1.30) + (Number(yellowadmit) * 1.75);
+            console.log("Yellow Sum is:" + yellowsum);
+            sumlist.yellow = yellowsum;
+        }
+        if (String(bluepos) !== "pc") {
+            bluesum = Number(bluepos) + (Number(bluepts) - Number(bluewatch)) + (Number(bluewatch) * 1.30) + (Number(blueadmit) * 1.75);
+            console.log("Blue Sum is:" + bluesum);
+            sumlist.blue= bluesum;
+        }
+        if (String(whitepos) !== "pc") {
+            whitesum = Number(whitepos) + (Number(whitepts) - Number(whitewatch)) + (Number(whitewatch) * 1.30) + (Number(whiteadmit) * 1.75);
+            console.log("White Sum is:" + whitepos);
+            sumlist.white= whitesum;
+        }
+        console.log(sumlist);
+        const values = Object.values(sumlist); // Get all the values
+        const minValue = Math.min(...values); // Find the maximum value
+        const minKey = Object.keys(sumlist).find(key => sumlist[key] === minValue); // Find the key corresponding to the maximum value
+
+        console.log(`The key-value pair with the maximum value is: ${minKey}: ${minValue}`);
+        // Expected output: The key-value pair with the maximum value is: grape: 30
+
+        var returnColor;
+
+        var returnText = 'We made each of the teams compete for the minimum complexity. Toward list equilibrium, <br><br>the next patient should be assigned to <br><br><h3>' + String(minKey) +'.</h3> <br><br>If you do admit to this team, or any other team, be sure to change the value of the admitted patients field and re-calculate.';
+
+        document.getElementById("returnedResultsDiv").innerHTML = returnText;
+    
+    }
+</script>
+
+<!--let myObject = { name: "Alice" };
+    myObject.age = 30; // Adds a new key 'age' with value 30
+    console.log(myObject); // Output: { name: 'Alice', age: 30 } -->
+
+        <!--<h2>Content Library</h2>
+
+        <input type="text" id="myInput" onkeyup="mySearchFunction()" placeholder="Search for Topics..." title="Type in a topic">
+
+        <div id="searchResultsDiv">
+
+            Options Here
+
+        </div>
+
+        <div id="dotPhraseDiv">
+
+            Results Here
+
+        </div>-->
+
+<script>
+    function mySearchFunction() {
+        var txt =  "";
+        const parser = new DOMParser();
+        var input, filter, xmlString, xmlDoc, searchTermsList, a, txtValue, xPathRef, addText, commonNamePath, commonNameNodeSet, commonNameTxtSet, commonNameTxtAgg = " ", inputTrim;
+        var commonNameNodeSetAgg = new Set();
+        input = document.getElementById("myInput");
+        console.log('Retrieved Input: ' + input.value);
+        filter = input.value.toUpperCase();
+        var xmlString = document.getElementById('dataHouse').innerHTML;
+        var xmlDoc = parser.parseFromString(xmlString, "text/xml");
+        var searchTermsList = xmlDoc.getElementsByTagName("term");
+        inputTrim = input.value.trim();
+        if (inputTrim !== "") {
+            console.log('Endered If statement denoting input is not null');
+            for (i = 0; i < searchTermsList.length; i++) {
+                console.log("running the search Terms")
+                txtValue = searchTermsList[i].childNodes[0].nodeValue
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    //xPathRef = "/dxtxDatabase/diseaseProcess/indexing[term=\"" +  txtValue + "\"]/../content/text()"; 
+                    commonNamePath = "/dxtxDatabase/diseaseProcess/indexing[term=\"" + txtValue + "\"]/../title/text()";
+                    commonNameNodeSet = xmlDoc.evaluate(commonNamePath, xmlDoc, null, XPathResult.STRING_TYPE, null);
+                    commonNameNodeSetAgg = commonNameNodeSetAgg.add(commonNameNodeSet);
+                } else {
+
+                }
+            }
+        } else {
+            console.log('Endered If statement denoting input IS null');
+            txt = " ";
+            addText = " ";
+        }
+        
+        var commonNameStringSetAgg = [];
+        const seenIds = new Set();
+        for (const node of commonNameNodeSetAgg) {
+            var nodeValue = node.stringValue;
+            commonNameStringSetAgg.push(nodeValue);  
+        }
+
+        // Using Set and the spread operator
+        const commonNameStringSetAggUnq = [...new Set(commonNameStringSetAgg)];
+
+        for (const term of commonNameStringSetAggUnq){
+            xPathRef = "/dxtxDatabase/diseaseProcess/indexing[term=\"" +  term + "\"]/../content/text()";
+            addText = "<a href='javascript:void(0);' onclick='viewContent(`" + xPathRef + "`)'>" + term + "</a><br>";
+            txt = txt + addText;
+            addText = " ";
+            commonNameTxtAgg = "";
+        }
+
+        document.getElementById("searchResultsDiv").innerHTML = txt;
+        txt= " ";
+
+    }
+
+    function viewContent(passedRef){
+        var dotPhraseNodes, dotPhraseText, dotPhraseTxtAgg = " ";
+        const parser = new DOMParser();
+        var xmlString = document.getElementById('dataHouse').innerHTML;
+        var xmlDoc = parser.parseFromString(xmlString, "text/xml");
+        dotPhraseNodes = xmlDoc.evaluate(passedRef, xmlDoc, null, XPathResult.ANY_TYPE, null);
+        dotPhraseText = dotPhraseNodes.iterateNext();
+        while (dotPhraseText) {
+            dotPhraseTxtAgg += dotPhraseText.nodeValue + "<br>"; //.childNodes[0]
+            dotPhraseText = dotPhraseNodes.iterateNext();
+        } 
+        //dotPhrase = passedRef;
+        document.getElementById("dotPhraseDiv").innerHTML = dotPhraseTxtAgg;
+    }
+</script>
+
+
+</body>
+</html>
+
+
