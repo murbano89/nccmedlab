@@ -127,7 +127,7 @@
 
         for (const term of commonNameStringSetAggUnq){
             xPathRef = "/dxtxDatabase/diseaseProcess/indexing[term=\"" +  term + "\"]/../content/text()";
-            addText = "<a href='javascript:void(0);' onclick='viewContent(`" + xPathRef + "`)'>" + term + "</a><br>";
+            addText = "&#x25cf; <a href='javascript:void(0);' onclick='viewContent(`" + xPathRef + "`)'>" + term + "</a><br>";
             txt = txt + addText;
             addText = " ";
             commonNameTxtAgg = "";
