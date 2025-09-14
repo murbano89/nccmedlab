@@ -75,15 +75,6 @@
             <tr>
                 <td><label>Rotation:</label></td>
                 <td>
-                    <select name="redRotationPosition" id="redRotationPosition" type="text" value="pc">
-                        <option type="number" value="">--</option>
-                        <option type="number" value="0.03">Call</option>
-                        <option value="pc">Post-Call</option>
-                        <option type="number" value="0.02">Trickle # 1</option>
-                        <option type="number" value="0.01">Trickle # 2</option>
-                    </select>
-                </td>
-                <td>
                     <select name="yellowRotationPosition" id="yellowRotationPosition" type="number" value="0.03">
                         <option type="number" value="">--</option>
                         <option type="number" value="0.03">Call</option>
@@ -93,7 +84,7 @@
                     </select>
                 </td>
                 <td>
-                    <select name="blueRotationPosition" id="blueRotationPosition" type="number" value="0.02">
+                    <select name="redRotationPosition" id="redRotationPosition" type="text" value="pc">
                         <option type="number" value="">--</option>
                         <option type="number" value="0.03">Call</option>
                         <option value="pc">Post-Call</option>
@@ -110,24 +101,33 @@
                         <option type="number" value="0.01">Trickle # 2</option>
                     </select>
                 </td>
+                <td>
+                    <select name="blueRotationPosition" id="blueRotationPosition" type="number" value="0.02">
+                        <option type="number" value="">--</option>
+                        <option type="number" value="0.03">Call</option>
+                        <option value="pc">Post-Call</option>
+                        <option type="number" value="0.02">Trickle # 1</option>
+                        <option type="number" value="0.01">Trickle # 2</option>
+                    </select>
+                </td>
             </tr>
             <tr>
                 <td>
                     <label>Total Number of Patients:</label>
                 </td>
-                <td><input type="number" size="2" id="redPatientNumber" value="8"></td>
-                <td><input type="number" size="2" id="yellowPatientNumber" value="9"></td>
-                <td><input type="number" size="2" id="bluePatientNumber" value="8"></td>
-                <td><input type="number" size="2" id="whitePatientNumber" value="10"></td>
+                <td><input type="number" size="2" id="redPatientNumber" value="0"></td>
+                <td><input type="number" size="2" id="yellowPatientNumber" value="0"></td>
+                <td><input type="number" size="2" id="bluePatientNumber" value="0"></td>
+                <td><input type="number" size="2" id="whitePatientNumber" value="0"></td>
             </tr>
             <tr>
                 <td>
                     <label>Watchers:</label>
                 </td>
                 <td><input type="number" size="2" id="redWatchers" value="0"></td>
-                <td><input type="number" size="2" id="yellowWatchers" value="1"></td>
-                <td><input type="number" size="2" id="blueWatchers" value="1"></td>
-                <td><input type="number" size="2" id="whiteWatchers" value="2"></td>
+                <td><input type="number" size="2" id="yellowWatchers" value="0"></td>
+                <td><input type="number" size="2" id="blueWatchers" value="0"></td>
+                <td><input type="number" size="2" id="whiteWatchers" value="0"></td>
             </tr>
             <tr>
                 <td>
